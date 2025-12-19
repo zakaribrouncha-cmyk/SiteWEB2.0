@@ -1,11 +1,37 @@
-window.SHOP_CONFIG = {
-  brand: 'ShopSTE',
-  currency: 'EUR',
-  shippingFeeCents: 690,
-  whatsappNumber: '33617518970',
-  paypalMe: 'https://www.paypal.me/EBorralhei',
-  adminPin: '7542',
-  countryLabel: 'France',
-};
+name: Deploy to GitHub Pages
 
-window.PRODUCTS = [];
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
