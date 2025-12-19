@@ -245,9 +245,17 @@
                   </label>
                   <label class="field">
                     <span>Catégorie</span>
-                    <input id="adminCategory" class="input" placeholder="Hoodies" required />
+                    <input id="adminCategory" class="input" placeholder="Hoodies" list="adminCategoryList" required />
                   </label>
                 </div>
+
+                <datalist id="adminCategoryList">
+                  <option value="Hoodies"></option>
+                  <option value="Tee-shirts"></option>
+                  <option value="Pantalons"></option>
+                  <option value="Accessoires"></option>
+                  <option value="Objet"></option>
+                </datalist>
 
                 <label class="field">
                   <span>Image (depuis tes fichiers)</span>
@@ -256,7 +264,7 @@
                   <img id="adminImagePreview" class="admin-preview" alt="Aperçu" />
                 </label>
 
-                <div class="row2">
+                <div id="adminVariantsRow" class="row2">
                   <label class="field">
                     <span>Tailles (séparées par virgule)</span>
                     <input id="adminSizes" class="input" placeholder="S, M, L, XL" />
