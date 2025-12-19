@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopSTE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#/">
+        <span class="brand-mark" aria-hidden="true">
+          <span class="brand-mono">STE</span>
+        </span>
+        <span class="brand-name">ShopSTE</span>
+      </a>
+
+      <nav class="nav">
+        <a class="nav-link" href="#/boutique">Boutique</a>
+        <a class="nav-link" href="#/nouveautes">Nouveautés</a>
+        <a class="nav-link" href="#/contact">Contact</a>
+      </nav>
+
+      <div class="actions">
+        <button id="openAdmin" class="icon-btn" type="button" aria-label="Ouvrir l'administration">
+          <span class="icon" aria-hidden="true">🔧</span>
+        </button>
+        <button id="openCart" class="icon-btn" type="button" aria-label="Ouvrir le panier">
+          <span class="icon" aria-hidden="true">🧺</span>
+          <span id="cartCount" class="pill" aria-hidden="true">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="view-home" class="view">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="tag">Collection</div>
+            <h1>ShopSTE</h1>
+            <p>
+              Pièces sélectionnées. Séries limitées.
+            </p>
+            <div class="hero-cta">
+              <a class="btn primary" href="#/boutique">Voir la boutique</a>
+              <a class="btn ghost" href="#/nouveautes">Découvrir les nouveautés</a>
+            </div>
+
+            <div class="hero-stats">
+              <div class="stat">
+                <div class="stat-k">Qualité</div>
+                <div class="stat-v">Premium</div>
+              </div>
+              <div class="stat">
+                <div class="stat-k">Retours</div>
+                <div class="stat-v">14 jours</div>
+              </div>
+              <div class="stat">
+                <div class="stat-k">Support</div>
+                <div class="stat-v">WhatsApp</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-card" aria-hidden="true">
+            <div class="card-top">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <div class="card-body">
+              <div class="mock-img"></div>
+              <div class="mock-lines">
+                <div class="line w-70"></div>
+                <div class="line w-55"></div>
+                <div class="line w-40"></div>
+              </div>
+              <div class="mock-price">
+                <div class="line w-22"></div>
+                <div class="line w-18"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="strip">
+          <div class="strip-item">Paiement: WhatsApp</div>
+          <div class="strip-item">EUR • France</div>
+          <div class="strip-item">Stocks limités</div>
+          <div class="strip-item">Frais de livraison transparents</div>
+        </div>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>Best sellers</h2>
+            <a class="link" href="#/boutique">Voir tout</a>
+          </div>
+          <div id="homeGrid" class="grid"></div>
+        </section>
+      </section>
+
+      <section id="view-shop" class="view" hidden>
+        <div class="page-head">
+          <div>
+            <h1>Boutique</h1>
+            <p class="muted">Pièces luxe sélectionnées • tailles et couleurs au choix</p>
+          </div>
+          <div class="filters">
+            <input id="q" class="input" type="search" placeholder="Rechercher…" autocomplete="off" />
+            <select id="category" class="input">
+              <option value="">Toutes catégories</option>
+            </select>
+            <select id="sort" class="input">
+              <option value="featured">Tri: sélection</option>
+              <option value="price-asc">Prix: croissant</option>
+              <option value="price-desc">Prix: décroissant</option>
+              <option value="new">Tri: nouveautés</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="shopGrid" class="grid"></div>
+      </section>
+
+      <section id="view-new" class="view" hidden>
+        <div class="page-head">
+          <div>
+            <h1>Nouveautés</h1>
+            <p class="muted">Derniers drops ShopTaSap</p>
+          </div>
+        </div>
+        <div id="newGrid" class="grid"></div>
+      </section>
+
+      <section id="view-contact" class="view" hidden>
+        <div class="page-head">
+          <div>
+            <h1>Contact</h1>
+            <p class="muted">Support et commandes via WhatsApp</p>
+          </div>
+        </div>
+
+        <div class="contact">
+          <div class="card">
+            <h3>WhatsApp</h3>
+            <p class="muted">Réponse rapide (horaires: 10h–20h)</p>
+            <a id="contactWa" class="btn primary" href="#">Ouvrir WhatsApp</a>
+          </div>
+          <div class="card">
+            <h3>Infos</h3>
+            <div class="kv"><span class="k">Devise</span><span class="v">EUR</span></div>
+            <div class="kv"><span class="k">Retours</span><span class="v">14 jours</span></div>
+            <div class="kv"><span class="k">Livraison</span><span class="v">France</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="productModal" class="modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="true"></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-label="Détails produit">
+        <button class="modal-close" type="button" data-close="true" aria-label="Fermer">✕</button>
+        <div id="productContent"></div>
+      </div>
+    </div>
+
+    <div id="onboardModal" class="modal" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-label="Informations client">
+        <div class="onboard">
+          <h2>Avant de commander</h2>
+          <p class="muted">Entre ton nom, prénom et téléphone. Ils seront ajoutés automatiquement dans le message WhatsApp.</p>
+          <form id="onboardForm" class="form" autocomplete="on">
+            <div class="row2">
+              <label class="field">
+                <span>Prénom</span>
+                <input id="custFirstName" class="input" required />
+              </label>
+              <label class="field">
+                <span>Nom</span>
+                <input id="custLastName" class="input" required />
+              </label>
+            </div>
+            <label class="field">
+              <span>Téléphone</span>
+              <input id="custPhone" class="input" inputmode="numeric" maxlength="10" pattern="^0\d{9}$" placeholder="06XXXXXXXX" required />
+            </label>
+            <button class="btn primary" type="submit">Continuer</button>
+          </form>
+          <div class="small muted">Ces informations restent sur ton appareil (localStorage).</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="adminModal" class="modal" aria-hidden="true">
+      <div class="modal-backdrop" data-admin-close="true"></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-label="Administration">
+        <button class="modal-close" type="button" data-admin-close="true" aria-label="Fermer">✕</button>
+
+        <div class="admin">
+          <div class="admin-head">
+            <div>
+              <h2>Admin</h2>
+              <p class="muted">Ajoute/modifie tes produits et leurs prix (stocké sur cet ordinateur).</p>
+            </div>
+            <div class="admin-actions">
+              <button id="adminNew" class="btn" type="button">Nouveau produit</button>
+              <button id="adminExport" class="btn" type="button">Exporter</button>
+              <button id="adminImport" class="btn" type="button">Importer</button>
+            </div>
+          </div>
+
+          <div class="admin-grid">
+            <div class="card admin-list">
+              <div class="admin-list-head">
+                <div class="muted">Produits</div>
+                <div id="adminCount" class="badge">0</div>
+              </div>
+              <div id="adminProducts" class="admin-products"></div>
+            </div>
+
+            <div class="card admin-form">
+              <div class="admin-form-head">
+                <div class="muted">Édition</div>
+                <div id="adminEditing" class="badge">Nouveau</div>
+              </div>
+
+              <form id="adminForm" class="form" autocomplete="off">
+                <input id="adminId" type="hidden" />
+
+                <label class="field">
+                  <span>Nom</span>
+                  <input id="adminName" class="input" required />
+                </label>
+
+                <div class="row2">
+                  <label class="field">
+                    <span>Prix (€)</span>
+                    <input id="adminPrice" class="input" inputmode="decimal" placeholder="129.00" required />
+                  </label>
+                  <label class="field">
+                    <span>Catégorie</span>
+                    <input id="adminCategory" class="input" placeholder="Hoodies" required />
+                  </label>
+                </div>
+
+                <label class="field">
+                  <span>Image (depuis tes fichiers)</span>
+                  <input id="adminImageFile" class="input" type="file" accept="image/*" />
+                  <input id="adminImage" type="hidden" />
+                  <img id="adminImagePreview" class="admin-preview" alt="Aperçu" />
+                </label>
+
+                <div class="row2">
+                  <label class="field">
+                    <span>Tailles (séparées par virgule)</span>
+                    <input id="adminSizes" class="input" placeholder="S, M, L, XL" />
+                  </label>
+                  <label class="field">
+                    <span>Couleurs (séparées par virgule)</span>
+                    <input id="adminColors" class="input" placeholder="Noir, Or" />
+                  </label>
+                </div>
+
+                <label class="field">
+                  <span>Description</span>
+                  <textarea id="adminDesc" class="input" rows="4" placeholder="Détails du produit"></textarea>
+                </label>
+
+                <div class="row2">
+                  <label class="check">
+                    <input id="adminFeatured" type="checkbox" />
+                    <span>Mis en avant</span>
+                  </label>
+                  <label class="check">
+                    <input id="adminNewFlag" type="checkbox" />
+                    <span>Nouveau</span>
+                  </label>
+                </div>
+
+                <div class="admin-form-actions">
+                  <button id="adminSave" class="btn primary" type="submit">Enregistrer</button>
+                  <button id="adminDelete" class="btn" type="button">Supprimer</button>
+                </div>
+              </form>
+
+              <div class="small muted">
+                Conseil: change le PIN dans <code>products.js</code> (adminPin). Par défaut: 7542.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside id="cart" class="cart" aria-hidden="true">
+      <div class="cart-head">
+        <div>
+          <div class="cart-title">Panier</div>
+          <div id="cartSubtitle" class="muted">0 article</div>
+        </div>
+        <button id="closeCart" class="icon-btn" type="button" aria-label="Fermer le panier">✕</button>
+      </div>
+
+      <div id="cartItems" class="cart-items"></div>
+
+      <div class="cart-foot">
+        <div class="totals">
+          <div class="row"><span>Sous-total</span><span id="subtotal">0,00 €</span></div>
+          <div class="row"><span>Livraison</span><span id="shipping">0,00 €</span></div>
+          <div class="row total"><span>Total</span><span id="total">0,00 €</span></div>
+        </div>
+
+        <div class="checkout">
+          <button id="checkoutBtn" class="btn primary" type="button">Commander sur WhatsApp</button>
+          <button id="clearCart" class="btn ghost" type="button">Vider</button>
+          <div class="small muted">
+            La commande s'ouvre sur WhatsApp avec ton récapitulatif. Paiement et livraison se finalisent ensuite.
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="./products.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
