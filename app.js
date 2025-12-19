@@ -2,7 +2,7 @@ const CFG = window.SHOP_CONFIG || {
   whatsappNumber: '33617518970',
   shippingFeeCents: 0,
   currency: 'EUR',
-  brand: 'ShopSTE',
+  brand: 'shopSK',
   adminPin: '7542',
 };
 
@@ -1071,3 +1071,4 @@ function init() {
 }
 
 init();
+
