@@ -22,6 +22,27 @@ function migrateBrandStorageKeys() {
         const v = localStorage.getItem(from);
         if (v != null) localStorage.setItem(to, v);
       }
+
+function isValidEmail(input) {
+  const s = String(input || '').trim();
+  if (!s) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+}
+
+async function sendOrderEmailBestEffort(payload) {
+  const url = String(CFG.emailOrderEndpoint || '').trim();
+  if (!url) return false;
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
     } catch {
       // ignore
     }
@@ -71,6 +92,7 @@ const els = {
   custFirstName: document.getElementById('custFirstName'),
   custLastName: document.getElementById('custLastName'),
   custPhone: document.getElementById('custPhone'),
+  custEmail: document.getElementById('custEmail'),
   adminModal: document.getElementById('adminModal'),
   adminNew: document.getElementById('adminNew'),
   adminExport: document.getElementById('adminExport'),
@@ -160,6 +182,7 @@ function loadCustomer() {
       firstName: String(v.firstName || '').trim(),
       lastName: String(v.lastName || '').trim(),
       phone: String(v.phone || '').trim(),
+      email: String(v.email || '').trim(),
     };
   } catch {
     return null;
@@ -173,7 +196,7 @@ function saveCustomer(c) {
 let customer = loadCustomer();
 
 function hasCustomerInfo() {
-  return !!(customer?.firstName && customer?.lastName && customer?.phone);
+  return !!(customer?.firstName && customer?.lastName && customer?.phone && customer?.email);
 }
 
 function openOnboard() {
@@ -773,7 +796,7 @@ function checkoutMessage() {
     .filter(Boolean);
 
   const custLine = hasCustomerInfo()
-    ? `Client: ${customer.firstName} ${customer.lastName} • Tel: ${customer.phone}`
+    ? `Client: ${customer.firstName} ${customer.lastName} • Tel: ${customer.phone} • Email: ${customer.email}`
     : 'Client: (à renseigner)';
 
   return [
@@ -840,6 +863,16 @@ function bindEvents() {
       toast('Ajoute ton lien PayPal.me dans products.js');
     }
 
+    sendOrderEmailBestEffort({
+      brand: CFG.brand,
+      customer,
+      message: checkoutMessage(),
+      cart,
+      createdAt: new Date().toISOString(),
+    }).then((ok) => {
+      if (ok) toast('Email envoyé');
+    });
+
     const url = waLink(checkoutMessage());
     window.open(url, '_blank', 'noopener,noreferrer');
   });
@@ -850,15 +883,20 @@ function bindEvents() {
     const lastName = String(els.custLastName?.value || '').trim();
     const rawPhone = String(els.custPhone?.value || '').trim();
     const normalizedPhone = normalizeFrenchPhone(rawPhone);
-    if (!firstName || !lastName || !rawPhone) {
+    const email = String(els.custEmail?.value || '').trim();
+    if (!firstName || !lastName || !rawPhone || !email) {
       toast('Champs invalides');
+      return;
+    }
+    if (!isValidEmail(email)) {
+      toast('Email invalide');
       return;
     }
     if (!normalizedPhone) {
       toast('Téléphone invalide: 10 chiffres (ex: 06XXXXXXXX)');
       return;
     }
-    customer = { firstName, lastName, phone: normalizedPhone };
+    customer = { firstName, lastName, phone: normalizedPhone, email };
     saveCustomer(customer);
     closeOnboard();
     toast('OK');
