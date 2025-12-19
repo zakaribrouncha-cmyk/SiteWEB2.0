@@ -88,6 +88,7 @@ const els = {
   adminImagePreview: document.getElementById('adminImagePreview'),
   adminSizes: document.getElementById('adminSizes'),
   adminColors: document.getElementById('adminColors'),
+  adminVariantsRow: document.getElementById('adminVariantsRow'),
   adminDesc: document.getElementById('adminDesc'),
   adminFeatured: document.getElementById('adminFeatured'),
   adminNewFlag: document.getElementById('adminNewFlag'),
@@ -95,6 +96,20 @@ const els = {
   toast: document.getElementById('toast'),
   contactWa: document.getElementById('contactWa'),
 };
+
+function isObjectCategory(category) {
+  const c = String(category || '').trim().toLowerCase();
+  return c === 'objet' || c === 'objets';
+}
+
+function updateAdminVariantsVisibility() {
+  const isObj = isObjectCategory(els.adminCategory?.value);
+  if (els.adminVariantsRow) els.adminVariantsRow.classList.toggle('hidden', isObj);
+  if (isObj) {
+    if (els.adminSizes) els.adminSizes.value = '';
+    if (els.adminColors) els.adminColors.value = '';
+  }
+}
 
 function moneyEUR(cents) {
   const v = (cents / 100).toFixed(2).replace('.', ',');
@@ -264,12 +279,14 @@ function renderCart() {
       const p = getProduct(it.productId);
       if (!p) return '';
       const line = p.priceCents * it.qty;
+      const isObj = isObjectCategory(p.category);
+      const meta1 = isObj ? '' : `Taille: ${safeText(it.size)} • Couleur: ${safeText(it.color)}`;
       return `
         <div class="cart-item" data-key="${safeText(cartItemKey(it))}">
           <div class="cart-item-top">
             <div>
               <div class="cart-item-name">${safeText(p.name)}</div>
-              <div class="cart-item-meta">Taille: ${safeText(it.size)} • Couleur: ${safeText(it.color)}</div>
+              ${meta1 ? `<div class="cart-item-meta">${meta1}</div>` : ''}
               <div class="cart-item-meta">${moneyEUR(p.priceCents)} • Ligne: ${moneyEUR(line)}</div>
             </div>
             <button class="icon-btn" type="button" data-remove="true" aria-label="Supprimer">🗑️</button>
@@ -300,8 +317,10 @@ function addToCart(productId, size, color, qty = 1) {
   const p = getProduct(productId);
   if (!p) return;
 
-  const s = size || p.sizes?.[0] || 'Unique';
-  const c = color || p.colors?.[0] || 'Standard';
+  const isObj = isObjectCategory(p.category);
+
+  const s = isObj ? 'Unique' : (size || p.sizes?.[0] || 'Unique');
+  const c = isObj ? 'Standard' : (color || p.colors?.[0] || 'Standard');
 
   const item = { productId, size: s, color: c, qty: Math.max(1, qty) };
   const key = cartItemKey(item);
@@ -543,6 +562,7 @@ function fillAdminForm(p) {
   els.adminDesc.value = p?.description || '';
   els.adminFeatured.checked = !!p?.featured;
   els.adminNewFlag.checked = !!p?.isNew;
+  updateAdminVariantsVisibility();
   setAdminEditingLabel(p?.id ? 'Édition' : 'Nouveau');
 }
 
@@ -554,6 +574,7 @@ function adminSelectProduct(productId) {
 
 function adminNewProduct() {
   fillAdminForm(null);
+  updateAdminVariantsVisibility();
   setAdminEditingLabel('Nouveau');
 }
 
@@ -567,6 +588,8 @@ function adminSaveProductFromForm() {
     return;
   }
 
+  const isObj = isObjectCategory(category);
+
   const idExisting = String(els.adminId?.value || '').trim();
   const id = idExisting || genIdFromName(name);
 
@@ -578,8 +601,8 @@ function adminSaveProductFromForm() {
     featured: !!els.adminFeatured?.checked,
     isNew: !!els.adminNewFlag?.checked,
     images: [image],
-    sizes: parseCSV(els.adminSizes?.value) || ['Unique'],
-    colors: parseCSV(els.adminColors?.value) || ['Standard'],
+    sizes: isObj ? undefined : (parseCSV(els.adminSizes?.value) || ['Unique']),
+    colors: isObj ? undefined : (parseCSV(els.adminColors?.value) || ['Standard']),
     description: String(els.adminDesc?.value || '').trim(),
   };
 
@@ -657,8 +680,23 @@ function renderPdp(productId) {
   if (!p || !els.productContent) return;
 
   const img = p.images?.[0] || '';
-  const sizes = (p.sizes || ['Unique']).map((s, i) => `<button class="chip" type="button" data-size="${safeText(s)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${safeText(s)}</button>`).join('');
-  const colors = (p.colors || ['Standard']).map((c, i) => `<button class="chip" type="button" data-color="${safeText(c)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${safeText(c)}</button>`).join('');
+  const isObj = isObjectCategory(p.category);
+  const sizeList = isObj ? [] : (Array.isArray(p.sizes) ? p.sizes : ['Unique']);
+  const colorList = isObj ? [] : (Array.isArray(p.colors) ? p.colors : ['Standard']);
+  const sizes = sizeList.map((s, i) => `<button class="chip" type="button" data-size="${safeText(s)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${safeText(s)}</button>`).join('');
+  const colors = colorList.map((c, i) => `<button class="chip" type="button" data-color="${safeText(c)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${safeText(c)}</button>`).join('');
+  const sizeBlock = isObj ? '' : `
+        <div class="selector">
+          <div class="muted">Taille</div>
+          <div class="chips" data-sizes>${sizes}</div>
+        </div>
+  `;
+  const colorBlock = isObj ? '' : `
+        <div class="selector">
+          <div class="muted">Couleur</div>
+          <div class="chips" data-colors>${colors}</div>
+        </div>
+  `;
 
   els.productContent.innerHTML = `
     <div class="pdp" data-pdp="${safeText(p.id)}">
@@ -670,15 +708,8 @@ function renderPdp(productId) {
         </div>
         <div class="muted">${safeText(p.description || '')}</div>
 
-        <div class="selector">
-          <div class="muted">Taille</div>
-          <div class="chips" data-sizes>${sizes}</div>
-        </div>
-
-        <div class="selector">
-          <div class="muted">Couleur</div>
-          <div class="chips" data-colors>${colors}</div>
-        </div>
+        ${sizeBlock}
+        ${colorBlock}
 
         <div class="pdp-row">
           <button class="btn primary" type="button" data-add="true">Ajouter au panier</button>
@@ -733,8 +764,11 @@ function checkoutMessage() {
     .map((it) => {
       const p = getProduct(it.productId);
       if (!p) return '';
+      const isObj = isObjectCategory(p.category);
       const line = p.priceCents * it.qty;
-      return `- ${p.name} | Taille: ${it.size} | Couleur: ${it.color} | Qté: ${it.qty} | ${moneyEUR(line)}`;
+      return isObj
+        ? `- ${p.name} | Qté: ${it.qty} | ${moneyEUR(line)}`
+        : `- ${p.name} | Taille: ${it.size} | Couleur: ${it.color} | Qté: ${it.qty} | ${moneyEUR(line)}`;
     })
     .filter(Boolean);
 
@@ -829,6 +863,8 @@ function bindEvents() {
     closeOnboard();
     toast('OK');
   });
+
+  els.adminCategory?.addEventListener('input', () => updateAdminVariantsVisibility());
 
   els.cartItems?.addEventListener('click', (e) => {
     const row = e.target?.closest?.('.cart-item');
