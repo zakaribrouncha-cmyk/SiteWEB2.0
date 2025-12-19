@@ -5,7 +5,7 @@ window.SHOP_CONFIG = {
   whatsappNumber: '33617518970',
   paypalMe: 'https://www.paypal.me/EBorralhei',
   adminPin: '7542',
-  emailOrderEndpoint: '',
+  emailOrderEndpoint: 'https://supabase.com/dashboard/project/vjffnzzgaawrzdogenvq/functions/secrets',
   countryLabel: 'France',
 };
 
