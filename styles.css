@@ -301,6 +301,8 @@ a { color: inherit; text-decoration: none; }
 
 .muted { color: var(--muted); }
 
+.hidden { display: none !important; }
+
 .filters {
   display: flex;
   flex-wrap: wrap;
