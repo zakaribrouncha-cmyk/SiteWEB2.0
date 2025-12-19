@@ -13,86 +13,60 @@
     <div class="bg" aria-hidden="true"></div>
 
     <header class="topbar">
-      <a class="brand" href="#/">
-        <span class="brand-mark" aria-hidden="true">
-          <span class="brand-mono">STE</span>
-        </span>
-        <span class="brand-name">ShopSTE</span>
-      </a>
+      <div class="nav-container">
+        <a class="brand" href="#/">
+          <span class="brand-mark" aria-hidden="true">
+            <span class="brand-mono">STE</span>
+          </span>
+          <span class="brand-name">ShopSTE</span>
+        </a>
 
-      <nav class="nav">
-        <a class="nav-link" href="#/boutique">Boutique</a>
-        <a class="nav-link" href="#/nouveautes">Nouveautés</a>
-        <a class="nav-link" href="#/contact">Contact</a>
-      </nav>
+        <nav class="nav">
+          <a class="nav-link" href="#/boutique">Boutique</a>
+          <a class="nav-link" href="#/nouveautes">Nouveautés</a>
+          <a class="nav-link" href="#/contact">Contact</a>
+        </nav>
 
-      <div class="actions">
-        <button id="openAdmin" class="icon-btn" type="button" aria-label="Ouvrir l'administration">
-          <span class="icon" aria-hidden="true">🔧</span>
-        </button>
-        <button id="openCart" class="icon-btn" type="button" aria-label="Ouvrir le panier">
-          <span class="icon" aria-hidden="true">🧺</span>
-          <span id="cartCount" class="pill" aria-hidden="true">0</span>
-        </button>
+        <div class="actions">
+          <button id="openAdmin" class="icon-btn" type="button" aria-label="Ouvrir l'administration">
+            <svg class="icon" viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+              <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm8.94-2.58-1.73-.99a7.95 7.95 0 0 0 0-1.86l1.73-.99a.75.75 0 0 0 .28-1.02l-1.5-2.6a.75.75 0 0 0-1.02-.27l-1.73.99c-.5-.4-1.05-.73-1.64-.97V2.75A.75.75 0 0 0 14.58 2h-3a.75.75 0 0 0-.75.75v1.98c-.59.24-1.14.57-1.64.97l-1.73-.99a.75.75 0 0 0-1.02.27l-1.5 2.6a.75.75 0 0 0 .28 1.02l1.73.99a7.95 7.95 0 0 0 0 1.86l-1.73.99a.75.75 0 0 0-.28 1.02l1.5 2.6c.2.36.66.49 1.02.27l1.73-.99c.5.4 1.05.73 1.64.97v1.98c0 .41.34.75.75.75h3c.41 0 .75-.34.75-.75v-1.98c.59-.24 1.14-.57 1.64-.97l1.73.99c.36.21.82.09 1.02-.27l1.5-2.6a.75.75 0 0 0-.28-1.02Z" fill="currentColor"/>
+            </svg>
+          </button>
+          <button id="openCart" class="icon-btn cart-icon" type="button" aria-label="Ouvrir le panier">
+            <svg class="icon" viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+              <path d="M8 9V7a4 4 0 1 1 8 0v2h-1.5V7a2.5 2.5 0 0 0-5 0v2H8Z" fill="currentColor"/>
+              <path d="M6.25 9h11.5c.45 0 .83.35.87.8l.85 9.5A2 2 0 0 1 17.48 21H6.52a2 2 0 0 1-1.99-1.7l-.85-9.5A.88.88 0 0 1 4.55 9h1.7Z" fill="currentColor"/>
+            </svg>
+            <span id="cartCount" class="pill" aria-hidden="true">0</span>
+          </button>
+        </div>
       </div>
     </header>
 
     <main class="container">
       <section id="view-home" class="view">
         <div class="hero">
-          <div class="hero-copy">
-            <div class="tag">Collection</div>
-            <h1>ShopSTE</h1>
-            <p>
-              Pièces sélectionnées. Séries limitées.
-            </p>
-            <div class="hero-cta">
-              <a class="btn primary" href="#/boutique">Voir la boutique</a>
-              <a class="btn ghost" href="#/nouveautes">Découvrir les nouveautés</a>
-            </div>
+          <div class="hero-background" aria-hidden="true"></div>
+          <div class="hero-overlay" aria-hidden="true"></div>
 
-            <div class="hero-stats">
-              <div class="stat">
-                <div class="stat-k">Qualité</div>
-                <div class="stat-v">Premium</div>
-              </div>
-              <div class="stat">
-                <div class="stat-k">Retours</div>
-                <div class="stat-v">14 jours</div>
-              </div>
-              <div class="stat">
-                <div class="stat-k">Support</div>
-                <div class="stat-v">WhatsApp</div>
-              </div>
+          <div class="hero-content">
+            <div class="hero-sub">Collections exclusives • Qualité premium • Identité street</div>
+            <h1 class="hero-title">
+              L'ÉLÉGANCE<br />URBAINE<br /><span class="accent">REDEFINED</span>
+            </h1>
+            <div class="hero-buttons">
+              <a class="btn primary" href="#/boutique">Shop now</a>
+              <a class="btn ghost" href="#/nouveautes">Découvrir</a>
             </div>
           </div>
 
-          <div class="hero-card" aria-hidden="true">
-            <div class="card-top">
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-            </div>
-            <div class="card-body">
-              <div class="mock-img"></div>
-              <div class="mock-lines">
-                <div class="line w-70"></div>
-                <div class="line w-55"></div>
-                <div class="line w-40"></div>
-              </div>
-              <div class="mock-price">
-                <div class="line w-22"></div>
-                <div class="line w-18"></div>
-              </div>
+          <div class="hero-scroll" aria-hidden="true">
+            <div class="scroll-indicator">
+              <span>SCROLL</span>
+              <span class="scroll-arrow"></span>
             </div>
           </div>
-        </div>
-
-        <div class="strip">
-          <div class="strip-item">Paiement: WhatsApp</div>
-          <div class="strip-item">EUR • France</div>
-          <div class="strip-item">Stocks limités</div>
-          <div class="strip-item">Frais de livraison transparents</div>
         </div>
 
         <section class="section">
