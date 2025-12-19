@@ -22,27 +22,6 @@ function migrateBrandStorageKeys() {
         const v = localStorage.getItem(from);
         if (v != null) localStorage.setItem(to, v);
       }
-
-function isValidEmail(input) {
-  const s = String(input || '').trim();
-  if (!s) return false;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
-}
-
-async function sendOrderEmailBestEffort(payload) {
-  const url = String(CFG.emailOrderEndpoint || '').trim();
-  if (!url) return false;
-  try {
-    await fetch(url, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    return true;
-  } catch {
-    return false;
-  }
-}
     } catch {
       // ignore
     }
@@ -57,6 +36,29 @@ async function sendOrderEmailBestEffort(payload) {
     }
   } catch {
     // ignore
+  }
+}
+
+function isValidEmail(input) {
+  const s = String(input || '').trim();
+  if (!s) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+}
+
+window.isValidEmail = isValidEmail;
+
+async function sendOrderEmailBestEffort(payload) {
+  const url = String(CFG.emailOrderEndpoint || '').trim();
+  if (!url) return false;
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return true;
+  } catch {
+    return false;
   }
 }
 
