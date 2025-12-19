@@ -2,37 +2,44 @@ const CFG = window.SHOP_CONFIG || {
   whatsappNumber: '33617518970',
   shippingFeeCents: 0,
   currency: 'EUR',
-  brand: 'shopSK',
+  brand: 'Shops',
   adminPin: '7542',
 };
 
 function migrateBrandStorageKeys() {
-  const prevBrand = 'ShopTaSap';
+  const prevBrands = ['ShopTaSap', 'ShopSTE'];
   const nextBrand = String(CFG.brand || '');
-  if (!nextBrand || nextBrand === prevBrand) return;
+  if (!nextBrand || prevBrands.includes(nextBrand)) return;
 
-  const pairs = [
-    [`${prevBrand}:products:v1`, `${nextBrand}:products:v1`],
-    [`${prevBrand}:cart:v1`, `${nextBrand}:cart:v1`],
-  ];
+  for (const prevBrand of prevBrands) {
+    const pairs = [
+      [`${prevBrand}:products:v1`, `${nextBrand}:products:v1`],
+      [`${prevBrand}:cart:v1`, `${nextBrand}:cart:v1`],
+    ];
 
-  for (const [from, to] of pairs) {
-    try {
-      if (localStorage.getItem(to) == null) {
-        const v = localStorage.getItem(from);
-        if (v != null) localStorage.setItem(to, v);
+    for (const [from, to] of pairs) {
+      try {
+        if (localStorage.getItem(to) == null) {
+          const v = localStorage.getItem(from);
+          if (v != null) localStorage.setItem(to, v);
+        }
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
     }
   }
 
   try {
-    const from = `${prevBrand}:admin:unlocked:v1`;
     const to = `${nextBrand}:admin:unlocked:v1`;
     if (sessionStorage.getItem(to) == null) {
-      const v = sessionStorage.getItem(from);
-      if (v != null) sessionStorage.setItem(to, v);
+      for (const prevBrand of prevBrands) {
+        const from = `${prevBrand}:admin:unlocked:v1`;
+        const v = sessionStorage.getItem(from);
+        if (v != null) {
+          sessionStorage.setItem(to, v);
+          break;
+        }
+      }
     }
   } catch {
     // ignore
@@ -1071,4 +1078,3 @@ function init() {
 }
 
 init();
-
