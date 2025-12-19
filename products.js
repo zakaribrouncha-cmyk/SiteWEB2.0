@@ -1,5 +1,5 @@
 window.SHOP_CONFIG = {
-  brand: 'ShopSTE',
+  brand: 'ShopSK',
   currency: 'EUR',
   shippingFeeCents: 690,
   whatsappNumber: '33617518970',
@@ -10,3 +10,4 @@ window.SHOP_CONFIG = {
 };
 
 window.PRODUCTS = [];
+
